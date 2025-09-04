@@ -3,9 +3,16 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
-{   
+{
     [SerializeField] float moveSpeed = 5;
     public InputAction MoveAction;
+
+    private Rigidbody2D rb;
+    Vector2 move;
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
     void Start()
     {
         MoveAction.Enable();
@@ -13,8 +20,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Vector2 move = MoveAction.ReadValue<Vector2>();
-        Vector2 position = (Vector2)transform.position + move * moveSpeed * Time.deltaTime;
-        transform.position = position;
+        move = MoveAction.ReadValue<Vector2>();
+    }
+    void FixedUpdate()
+    {
+        Vector2 position = (Vector2)rb.position + move * moveSpeed * Time.deltaTime;
+        rb.MovePosition(position);
     }
 }
