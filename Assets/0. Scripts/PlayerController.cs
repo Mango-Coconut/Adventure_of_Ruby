@@ -5,12 +5,17 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5;
-    public InputAction MoveAction;
+    [SerializeField] InputAction MoveAction;
 
-    private Rigidbody2D rb;
+    public int maxHealth = 5;
+    [SerializeField] int currentHealth;
+    public int Health { get { return currentHealth; } }
+
+    Rigidbody2D rb;
     Vector2 move;
     void Awake()
     {
+        currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
     }
     void Start()
@@ -26,5 +31,14 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 position = (Vector2)rb.position + move * moveSpeed * Time.deltaTime;
         rb.MovePosition(position);
+    }
+
+    public void ChangeHealth(int amount)
+    {
+        currentHealth += Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        if (currentHealth == 0)
+        {
+            //TODO 사망 처리
+        }
     }
 }
