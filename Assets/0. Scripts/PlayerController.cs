@@ -7,6 +7,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed = 5;
     [SerializeField] InputAction MoveAction;
 
+    public float timeInvincible = 2.0f;
+    bool isInvincible;
+    float invincibleTimer;
+
     public int maxHealth = 5;
     [SerializeField] int currentHealth;
     public int Health { get { return currentHealth; } }
@@ -26,6 +30,13 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         move = MoveAction.ReadValue<Vector2>();
+
+        if (isInvincible)
+        {
+            invincibleTimer -= Time.deltaTime;
+            if (invincibleTimer < 0)
+                isInvincible = false;
+        }
     }
     void FixedUpdate()
     {
@@ -35,7 +46,16 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeHealth(int amount)
     {
-        currentHealth += Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        if (amount < 0)
+        {
+            if (isInvincible)
+                return;
+            
+            isInvincible = true;
+            invincibleTimer = timeInvincible;
+        }
+        
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         if (currentHealth == 0)
         {
             //TODO 사망 처리
