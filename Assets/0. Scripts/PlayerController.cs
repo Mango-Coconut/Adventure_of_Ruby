@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    Animator animator;
+    Vector2 lookDirection = new Vector2(1, 0);
     [SerializeField] float moveSpeed = 5;
     [SerializeField] InputAction MoveAction;
 
@@ -19,8 +21,9 @@ public class PlayerController : MonoBehaviour
     Vector2 move;
     void Awake()
     {
-        currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        currentHealth = maxHealth;
     }
     void Start()
     {
