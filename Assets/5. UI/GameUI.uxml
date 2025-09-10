@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="HealthBarBackground" style="flex-grow: 0; align-items: auto; justify-content: flex-end; flex-direction: column; background-image: url(&quot;project://database/Assets/3.%20Art/SugarLand/UI/UIHealthFrame.png?fileID=21300000&amp;guid=587ae468f8de9ec419f7f86c5433bcbf&amp;type=3#UIHealthFrame&quot;); left: auto; width: 15%; height: 15%; position: relative; -unity-background-scale-mode: scale-to-fit;">
+        <ui:VisualElement name="HealthBarContainer" style="flex-grow: 1; opacity: 1; flex-basis: auto; position: absolute; height: 52px; top: 53px; width: 161px; left: 122px;">
+            <ui:VisualElement name="HealthBar" style="flex-grow: 1; -unity-background-scale-mode: scale-and-crop; background-image: url(&quot;project://database/Assets/3.%20Art/SugarLand/UI/UIHealthBar.png?fileID=21300000&amp;guid=b28ee55f43291f14ab9219808f397b88&amp;type=3#UIHealthBar&quot;); position: relative; height: auto; width: 157px; left: initial;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="CharacterPortrait" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/3.%20Art/SugarLand/UI/CharacterPortrait.png?fileID=21300000&amp;guid=e8af26c6841fc05459ccaf23dbab2b63&amp;type=3#CharacterPortrait&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; height: 110px; flex-direction: column; left: 11px; top: 24px; bottom: auto; width: 106px;" />
+    </ui:VisualElement>
+</ui:UXML>
