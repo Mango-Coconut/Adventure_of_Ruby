@@ -5,18 +5,22 @@ using UnityEngine.UIElements;
 
 public class UIHandler : MonoBehaviour
 {
-    [Range(0f, 1f)]public float health = 0.5f;
+    public static UIHandler instance { get; private set; }
+    [Range(0f, 1f)] public float health = 0.5f;
 
     UIDocument uiDocument;
     VisualElement healthBar;
 
     void Awake()
     {
+        instance = this;
         uiDocument = GetComponent<UIDocument>();
         healthBar = uiDocument.rootVisualElement.Q<VisualElement>("HealthBar");
+        SetHealthValue(1.0f); 
     }
-    void Update()
+    
+    public void SetHealthValue(float percentage)
     {
-        healthBar.style.width = Length.Percent(health * 100.0f);
-    }
+        healthBar.style.width = Length.Percent(100 * percentage);
+    } 
 }

@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
         }
         
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
         if (currentHealth == 0)
         {
             //TODO 사망 처리

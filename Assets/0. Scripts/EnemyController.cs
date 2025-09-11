@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    Animator animator;
     Rigidbody2D rb;
     float speed = 10f;
     float timer;
@@ -18,20 +17,18 @@ public class EnemyController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
         timer = changeTime;
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        timer -= Time.deltaTime;
+        timer += Time.deltaTime;
 
-        if (timer < 0)
+        if (timer > changeTime)
         {
+            timer = 0;
             direction = -direction;
-            timer = changeTime;
         }
 
         Vector2 position = rb.position;
