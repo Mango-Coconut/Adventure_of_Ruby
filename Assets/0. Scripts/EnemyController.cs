@@ -7,8 +7,9 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    Animator animator;
     Rigidbody2D rb;
-    float speed = 10f;
+    float speed = 1f;
     float timer;
     float changeTime = 3f;
     public bool vertical;
@@ -16,12 +17,13 @@ public class EnemyController : MonoBehaviour
 
     void Awake()
     {
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         timer = changeTime;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         timer += Time.deltaTime;
 
@@ -36,10 +38,14 @@ public class EnemyController : MonoBehaviour
         if (vertical)
         {
             position.y = position.y + Time.deltaTime * speed * direction;
+            animator.SetFloat("X", 0);
+            animator.SetFloat("Y", direction);
         }
         else
         {
             position.x = position.x + Time.deltaTime * speed * direction;
+            animator.SetFloat("X", direction);
+            animator.SetFloat("Y", 0);
         }
 
         rb.MovePosition(position);
