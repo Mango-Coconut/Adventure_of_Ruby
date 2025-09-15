@@ -4,8 +4,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    Animator animator;
-    Vector2 lookDirection = new Vector2(1, 0);
     [SerializeField] float moveSpeed = 5;
     [SerializeField] InputAction MoveAction;
 
@@ -19,6 +17,9 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rb;
     Vector2 move;
+
+    Animator animator;
+    Vector2 moveDirection = new Vector2(1,0);
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -33,6 +34,14 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         move = MoveAction.ReadValue<Vector2>();
+        if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
+        {
+            moveDirection.Set(move.x, move.y);
+            moveDirection.Normalize();
+        }
+        animator.SetFloat("Look X", moveDirection.x);
+        animator.SetFloat("Look Y", moveDirection.y);
+        animator.SetFloat("Speed", move.magnitude);
 
         if (isInvincible)
         {
