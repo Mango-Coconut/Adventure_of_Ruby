@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    bool broken = true;
     Animator animator;
     Rigidbody2D rb;
     float speed = 1f;
@@ -25,6 +26,10 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!broken)
+        {
+            return;
+        }
         timer += Time.deltaTime;
 
         if (timer > changeTime)
@@ -59,5 +64,10 @@ public class EnemyController : MonoBehaviour
             player.ChangeHealth(-1);
         }
     }
+    public void Fix()
+   {
+       broken = false;
+       rb.simulated = false;
+   }
 }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,7 +20,10 @@ public class PlayerController : MonoBehaviour
     Vector2 move;
 
     Animator animator;
-    Vector2 moveDirection = new Vector2(1,0);
+    Vector2 moveDirection = new Vector2(1, 0);
+    bool isstop = false;
+
+    public GameObject projectilePrefab;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -33,11 +37,22 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (isstop)
+        {
+            move = new Vector2(0,0);
+            return;
+        }
+            
+
         move = MoveAction.ReadValue<Vector2>();
         if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
         {
             moveDirection.Set(move.x, move.y);
             moveDirection.Normalize();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            StartCoroutine(Launch());
         }
         animator.SetFloat("Look X", moveDirection.x);
         animator.SetFloat("Look Y", moveDirection.y);
@@ -56,17 +71,28 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(position);
     }
 
+
+    IEnumerator Launch()
+    {
+        GameObject projectileObject = Instantiate(projectilePrefab, rb.position + Vector2.up * 1.5f, Quaternion.identity);
+        Projectile projectile = projectileObject.GetComponent<Projectile>();
+        projectile.Launch(moveDirection, 25);
+        animator.SetTrigger("Launch");
+        isstop = true;
+        yield return new WaitForSeconds(0.25f);
+        isstop = false;
+    }
     public void ChangeHealth(int amount)
     {
         if (amount < 0)
         {
             if (isInvincible)
                 return;
-            
+
             isInvincible = true;
             invincibleTimer = timeInvincible;
         }
-        
+
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         UIHandler.instance.SetHealthValue(currentHealth / (float)maxHealth);
         if (currentHealth == 0)
