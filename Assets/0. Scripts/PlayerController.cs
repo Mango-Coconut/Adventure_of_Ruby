@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5;
     [SerializeField] InputAction MoveAction;
+    public InputAction talkAction;
 
     public float timeInvincible = 2.0f;
     bool isInvincible;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         MoveAction.Enable();
+        talkAction.Enable();
     }
 
     void Update()
@@ -42,7 +44,10 @@ public class PlayerController : MonoBehaviour
             move = new Vector2(0,0);
             return;
         }
-            
+        if (talkAction.triggered)
+        {
+            FindFriend();
+        }
 
         move = MoveAction.ReadValue<Vector2>();
         if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
@@ -71,6 +76,14 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(position);
     }
 
+    void FindFriend()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(rb.position + Vector2.up * 0.2f, moveDirection, 1.5f, LayerMask.GetMask("NPC"));
+        if (hit.collider != null)
+        {
+            Debug.Log("레이캐스트가 객체를 쳤습니다 " + hit.collider.gameObject); 
+        }
+    }
 
     IEnumerator Launch()
     {
