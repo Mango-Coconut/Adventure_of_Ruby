@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    AudioSource audioSource;
     bool broken = true;
     Animator animator;
     Rigidbody2D rb;
@@ -18,6 +19,7 @@ public class EnemyController : MonoBehaviour
 
     void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         timer = changeTime;
@@ -65,9 +67,10 @@ public class EnemyController : MonoBehaviour
         }
     }
     public void Fix()
-   {
-       broken = false;
-       rb.simulated = false;
+    {
+        broken = false;
+        rb.simulated = false;
+        audioSource.Stop();
    }
 }
 

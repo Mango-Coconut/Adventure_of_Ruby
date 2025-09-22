@@ -24,11 +24,14 @@ public class PlayerController : MonoBehaviour
     Vector2 moveDirection = new Vector2(1, 0);
     bool isstop = false;
 
+    PlayerAudio playerAudio;
+
     public GameObject projectilePrefab;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        playerAudio = GetComponent<PlayerAudio>();
         currentHealth = maxHealth;
     }
     void Start()
