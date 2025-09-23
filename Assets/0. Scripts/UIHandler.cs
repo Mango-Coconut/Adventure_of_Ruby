@@ -5,28 +5,26 @@ using UnityEngine.UIElements;
 
 public class UIHandler : MonoBehaviour
 {
-    public float displayTime = 4.0f;
-    private VisualElement m_NonPlayerDialogue;
-    private float m_TimerDisplay;
+    private VisualElement m_Healthbar;
+    
     public static UIHandler instance { get; private set; }
-    [Range(0f, 1f)] public float health = 0.5f;
 
-    UIDocument uiDocument;
+    public float displayTime = 4.0f;
+    private float m_TimerDisplay;
+    private VisualElement m_NonPlayerDialogue;
+
+    [Range(0f, 1f)] public float health = 0.5f;
     VisualElement healthBar;
 
 
     void Awake()
     {
         instance = this;
-        uiDocument = GetComponent<UIDocument>();
+        UIDocument uiDocument = GetComponent<UIDocument>();
         healthBar = uiDocument.rootVisualElement.Q<VisualElement>("HealthBar");
-        m_NonPlayerDialogue = uiDocument.rootVisualElement.Q<VisualElement>("NPCDialogue");
         SetHealthValue(1.0f);
-    }
 
-    void Start()
-    {
-
+        m_NonPlayerDialogue = uiDocument.rootVisualElement.Q<VisualElement>("NPCDialogue");
         m_NonPlayerDialogue.style.display = DisplayStyle.None;
         m_TimerDisplay = -1.0f;
     }
@@ -42,6 +40,7 @@ public class UIHandler : MonoBehaviour
             }
         }
     }
+    
     public void DisplayDialogue()
     {
         m_NonPlayerDialogue.style.display = DisplayStyle.Flex;

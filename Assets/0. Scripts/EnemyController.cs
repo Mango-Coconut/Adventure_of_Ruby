@@ -8,6 +8,8 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     AudioSource audioSource;
+    [SerializeField] AudioClip hitSound;
+    [SerializeField] AudioClip fixSound;
     bool broken = true;
     Animator animator;
     Rigidbody2D rb;
@@ -16,6 +18,9 @@ public class EnemyController : MonoBehaviour
     float changeTime = 3f;
     public bool vertical;
     int direction = 1;
+    [SerializeField] int maxHP = 5;
+    int curHP;
+    [SerializeField] ParticleSystem smokeEffect;
 
     void Awake()
     {
@@ -23,6 +28,7 @@ public class EnemyController : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         timer = changeTime;
+        curHP = maxHP;
     }
 
     // Update is called once per frame
@@ -68,9 +74,20 @@ public class EnemyController : MonoBehaviour
     }
     public void Fix()
     {
-        broken = false;
-        rb.simulated = false;
-        audioSource.Stop();
-   }
+        if (!broken) return;
+        if (curHP <= 0)
+        {
+            broken = false;
+            rb.simulated = false;
+            audioSource.Stop();
+            audioSource.PlayOneShot(fixSound);
+            smokeEffect.Stop();
+        }
+        else //else if(curHP > 0)
+        {
+            curHP--;
+            audioSource.PlayOneShot(hitSound);
+        }
+    }
 }
 
